@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">API Ecobici</string>
+    <string name="app_name">API ECOBICI</string>
+    <string name="by">By Gabriel Rodríguez</string>
 </resources>

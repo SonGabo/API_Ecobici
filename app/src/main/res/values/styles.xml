@@ -8,4 +8,48 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--    TextView Regular    -->
+    <style name="regular_small_textview">
+        <item name="android:fontFamily">@font/google_regular</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:textSize">@dimen/small_size</item>
+    </style>
+
+    <style name="regular_medium_textview">
+        <item name="android:fontFamily">@font/google_regular</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:textSize">@dimen/medium_size</item>
+    </style>
+
+    <style name="regular_large_textview">
+        <item name="android:fontFamily">@font/google_regular</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:textSize">@dimen/large_size</item>
+    </style>
+
+    <!--    TextView Bold    -->
+    <style name="bold_small_textview">
+        <item name="android:fontFamily">@font/google_bold</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textSize">@dimen/small_size</item>
+    </style>
+
+    <style name="bold_medium_textview">
+        <item name="android:fontFamily">@font/google_bold</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textSize">@dimen/medium_size</item>
+    </style>
+
+    <style name="bold_large_textview">
+        <item name="android:fontFamily">@font/google_bold</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textSize">@dimen/large_size</item>
+    </style>
+
+    <!--    Title TextView    -->
+    <style name="title_textview">
+        <item name="android:fontFamily">@font/google_bold</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textSize">@dimen/title_size</item>
+    </style>
 </resources>

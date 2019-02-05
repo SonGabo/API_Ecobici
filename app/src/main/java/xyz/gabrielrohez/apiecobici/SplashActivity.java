@@ -1,5 +1,7 @@
 package xyz.gabrielrohez.apiecobici;
 
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -35,5 +37,13 @@ public class SplashActivity extends AppCompatActivity {
 
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.animation_logo);
         title.startAnimation(animation);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                finish();
+            }
+        },3000);
     }
 }

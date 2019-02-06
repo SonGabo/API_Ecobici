@@ -1,4 +1,4 @@
-package xyz.gabrielrohez.apiecobici;
+package xyz.gabrielrohez.apiecobici.utils;
 
 public class AppConstants {
     public static final String CLIENT_ID        =           "1618_54b2qku382gwcw8ww0ck084ccso48cwo0sscwoggk8w8ckcsgs";

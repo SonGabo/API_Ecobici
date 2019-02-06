@@ -1,4 +1,4 @@
-package xyz.gabrielrohez.apiecobici;
+package xyz.gabrielrohez.apiecobici.ui.stationinfo;
 
 
 import android.os.Bundle;
@@ -6,18 +6,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import xyz.gabrielrohez.apiecobici.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AvailabilityStationsFragment extends Fragment {
+public class StationInfoFragment extends Fragment {
 
     private View view;
 
-    public static AvailabilityStationsFragment newInstance() {
+    public static StationInfoFragment newInstance() {
         Bundle args = new Bundle();
-        AvailabilityStationsFragment fragment = new AvailabilityStationsFragment();
+        StationInfoFragment fragment = new StationInfoFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -25,8 +26,7 @@ public class AvailabilityStationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_availability_stations, container, false);
-
+        view = inflater.inflate(R.layout.fragment_station_info, container, false);
         return view;
     }
 

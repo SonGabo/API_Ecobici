@@ -1,4 +1,4 @@
-package xyz.gabrielrohez.apiecobici;
+package xyz.gabrielrohez.apiecobici.data.network.model;
 
 import com.google.gson.annotations.Expose;
 

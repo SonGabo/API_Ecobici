@@ -1,7 +1,10 @@
-package xyz.gabrielrohez.apiecobici;
+package xyz.gabrielrohez.apiecobici.data.network;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import xyz.gabrielrohez.apiecobici.data.network.model.AccessTokenResponse;
+import xyz.gabrielrohez.apiecobici.data.network.model.AvailabilityStationsResponse;
+import xyz.gabrielrohez.apiecobici.data.network.model.InfoStationResponse;
 
 public interface ApiEndpointInterface {
 

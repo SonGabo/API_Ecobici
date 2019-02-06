@@ -1,4 +1,4 @@
-package xyz.gabrielrohez.apiecobici;
+package xyz.gabrielrohez.apiecobici.data.network.model;
 
 public class AccessTokenResponse {
 

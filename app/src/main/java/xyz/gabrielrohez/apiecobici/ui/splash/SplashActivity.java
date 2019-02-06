@@ -1,4 +1,4 @@
-package xyz.gabrielrohez.apiecobici;
+package xyz.gabrielrohez.apiecobici.ui.splash;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import xyz.gabrielrohez.apiecobici.R;
+import xyz.gabrielrohez.apiecobici.ui.main.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {
 

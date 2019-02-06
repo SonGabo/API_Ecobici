@@ -15,6 +15,13 @@ public class InfoStationResponse {
         this.stations = stations;
     }
 
+    @Override
+    public String toString() {
+        return "InfoStationResponse{" +
+                "stations=" + stations +
+                '}';
+    }
+
     public static class Location {
         private double lat;
         private double lon;
@@ -33,6 +40,14 @@ public class InfoStationResponse {
 
         public void setLon(double lon) {
             this.lon = lon;
+        }
+
+        @Override
+        public String toString() {
+            return "Location{" +
+                    "lat=" + lat +
+                    ", lon=" + lon +
+                    '}';
         }
     }
 
@@ -136,6 +151,23 @@ public class InfoStationResponse {
 
         public void setStationType(String stationType) {
             this.stationType = stationType;
+        }
+
+        @Override
+        public String toString() {
+            return "Stations{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", address='" + address + '\'' +
+                    ", addressNumber='" + addressNumber + '\'' +
+                    ", zipCode='" + zipCode + '\'' +
+                    ", districtCode='" + districtCode + '\'' +
+                    ", districtName='" + districtName + '\'' +
+                    ", altitude='" + altitude + '\'' +
+                    ", nearbyStations=" + nearbyStations +
+                    ", location=" + location +
+                    ", stationType='" + stationType + '\'' +"\n\n"+
+                    '}';
         }
     }
 

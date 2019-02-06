@@ -32,6 +32,14 @@ public class AvailabilityStationsResponse {
         public void setSlots(int slots) {
             this.slots = slots;
         }
+
+        @Override
+        public String toString() {
+            return "Availability{" + "\n"+
+                    "bikes=" + bikes + "\n"+
+                    ", slots=" + slots +
+                    '}';
+        }
     }
 
     public static class StationsStatus {
@@ -62,5 +70,21 @@ public class AvailabilityStationsResponse {
         public void setAvailability(Availability availability) {
             this.availability = availability;
         }
+
+        @Override
+        public String toString() {
+            return "StationsStatus{" +"\n"+
+                    "id=" + id + "\n"+
+                    ", status='" + status + '\'' + "\n"+
+                    ", availability=" + availability +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "AvailabilityStationsResponse{" + "\n"+
+                "stationsStatus=" + stationsStatus + "\n"+
+                '}';
     }
 }

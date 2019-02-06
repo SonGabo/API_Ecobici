@@ -47,4 +47,15 @@ public class AccessTokenResponse {
     public void setRefresh_token(String refresh_token) {
         this.refresh_token = refresh_token;
     }
+
+    @Override
+    public String toString() {
+        return "AccessTokenResponse{" +
+                "access_token='" + access_token + '\'' + "\n"+
+                ", expires_in=" + expires_in +"\n"+
+                ", token_type='" + token_type + '\'' +"\n"+
+                ", scope='" + scope + '\'' +"\n"+
+                ", refresh_token='" + refresh_token + '\'' +
+                '}';
+    }
 }

@@ -20,6 +20,7 @@ import xyz.gabrielrohez.apiecobici.utils.AppConstants;
 public class RetrofitClient {
 
     private static RetrofitClient retrofitClient;
+    public Retrofit retrofit_token;
     public Retrofit retrofit;
 
     private RetrofitClient() {
@@ -41,6 +42,12 @@ public class RetrofitClient {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .addInterceptor(interceptor) //testing REMOVE/COMMENT BEFORE GENERATE APK
+                .build();
+
+        retrofit_token = new Retrofit.Builder()
+                .baseUrl(AppConstants.BASE_URL_TOKEN)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(okHttpClient)
                 .build();
 
         retrofit = new Retrofit.Builder()

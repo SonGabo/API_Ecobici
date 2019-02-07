@@ -1,61 +1,74 @@
 package xyz.gabrielrohez.apiecobici.data.network.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class AccessTokenResponse {
 
-    private String access_token;
-    private int expires_in;
-    private String token_type;
-    private String scope;
-    private String refresh_token;
+    @SerializedName("access_token")
+    @Expose
+    private String accessToken;
+    @SerializedName("expires_in")
+    @Expose
+    private Integer expiresIn;
+    @SerializedName("token_type")
+    @Expose
+    private String tokenType;
+    @SerializedName("scope")
+    @Expose
+    private Object scope;
+    @SerializedName("refresh_token")
+    @Expose
+    private String refreshToken;
 
-    public String getAccess_token() {
-        return access_token;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
-    public int getExpires_in() {
-        return expires_in;
+    public Integer getExpiresIn() {
+        return expiresIn;
     }
 
-    public void setExpires_in(int expires_in) {
-        this.expires_in = expires_in;
+    public void setExpiresIn(Integer expiresIn) {
+        this.expiresIn = expiresIn;
     }
 
-    public String getToken_type() {
-        return token_type;
+    public String getTokenType() {
+        return tokenType;
     }
 
-    public void setToken_type(String token_type) {
-        this.token_type = token_type;
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
     }
 
-    public String getScope() {
+    public Object getScope() {
         return scope;
     }
 
-    public void setScope(String scope) {
+    public void setScope(Object scope) {
         this.scope = scope;
     }
 
-    public String getRefresh_token() {
-        return refresh_token;
+    public String getRefreshToken() {
+        return refreshToken;
     }
 
-    public void setRefresh_token(String refresh_token) {
-        this.refresh_token = refresh_token;
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     @Override
     public String toString() {
         return "AccessTokenResponse{" +
-                "access_token='" + access_token + '\'' + "\n"+
-                ", expires_in=" + expires_in +"\n"+
-                ", token_type='" + token_type + '\'' +"\n"+
-                ", scope='" + scope + '\'' +"\n"+
-                ", refresh_token='" + refresh_token + '\'' +
+                "accessToken='" + accessToken + '\'' +
+                ", expiresIn=" + expiresIn +
+                ", tokenType='" + tokenType + '\'' +
+                ", scope=" + scope +
+                ", refreshToken='" + refreshToken + '\'' +
                 '}';
     }
 }

@@ -12,8 +12,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -66,7 +68,9 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
 
     @Override
     public void dataReceived(List<AvailabilityStationsResponse.StationsStatus> stationsStatus, List<InfoStationResponse.Stations> stationsInfo) {
-        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        //startActivity(new Intent(SplashActivity.this, MainActivity.class).putExtra("stationStatus", stationsStatus));
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
         finish();
     }
 

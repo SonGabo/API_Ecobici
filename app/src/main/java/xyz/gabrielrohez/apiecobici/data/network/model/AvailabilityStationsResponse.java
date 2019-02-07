@@ -1,8 +1,9 @@
 package xyz.gabrielrohez.apiecobici.data.network.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class AvailabilityStationsResponse {
+public class AvailabilityStationsResponse implements Serializable {
     private List<StationsStatus> stationsStatus;
 
     public List<StationsStatus> getStationsStatus() {
@@ -13,7 +14,7 @@ public class AvailabilityStationsResponse {
         this.stationsStatus = stationsStatus;
     }
 
-    public static class Availability {
+    public static class Availability implements Serializable {
         private int bikes;
         private int slots;
 
@@ -42,7 +43,7 @@ public class AvailabilityStationsResponse {
         }
     }
 
-    public static class StationsStatus {
+    public static class StationsStatus implements Serializable {
         private int id;
         private String status;
         private Availability availability;

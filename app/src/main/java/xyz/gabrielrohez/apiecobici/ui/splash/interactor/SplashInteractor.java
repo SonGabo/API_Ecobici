@@ -2,8 +2,10 @@ package xyz.gabrielrohez.apiecobici.ui.splash.interactor;
 
 import android.app.Activity;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,18 +25,22 @@ public class SplashInteractor implements SplashInteractorIn {
 
     @Override
     public void obtainAccessToken(final SplashPresenterListener listener, final Activity activity) {
+        MySharedPreferences.getInstance(activity);
 
         RetrofitClient.getInstance().retrofit_token.create(ApiEndpointInterface.class).obtainAccessToken(AppConstants.CLIENT_ID, AppConstants.CLIENT_SECRET, AppConstants.GRANT_TYPE).enqueue(new Callback<AccessTokenResponse>() {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
 
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                final String currentDateandTime = sdf.format(new Date());
+                if (response.body().getAccessToken()!=null){
+                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                    final String currentDateandTime = sdf.format(new Date());
 
-                MySharedPreferences.getInstance().setAccessToken(response.body().getAccess_token());
-                MySharedPreferences.getInstance().setRefreshToken(response.body().getRefresh_token());
-                MySharedPreferences.getInstance().setLastTime(currentDateandTime);
-                obtainInfoStations(listener, activity);
+                    MySharedPreferences.getInstance().setAccessToken(response.body().getAccessToken());
+                    MySharedPreferences.getInstance().setRefreshToken(response.body().getAccessToken());
+                    MySharedPreferences.getInstance().setLastTime(currentDateandTime);
+                    obtainInfoStations(listener, activity);
+                }else
+                    listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
             }
 
             @Override
@@ -51,8 +57,10 @@ public class SplashInteractor implements SplashInteractorIn {
             public void onResponse(Call<AvailabilityStationsResponse> call, Response<AvailabilityStationsResponse> response) {
                 if (response.code()==200){
                     obtainUbicationStations(listener, activity, response.body().getStationsStatus());
-                }else
+                }else if (response.code()==401)
                     obtainAccessToken(listener, activity);
+                else
+                    listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
             }
 
             @Override
@@ -68,8 +76,10 @@ public class SplashInteractor implements SplashInteractorIn {
             public void onResponse(Call<InfoStationResponse> call, Response<InfoStationResponse> response) {
                 if (response.code()==200){
                     listener.dataReceived(stationsStatus, response.body().getStations());
-                }else
+                }else if (response.code()==401)
                     obtainAccessToken(listener, activity);
+                else
+                    listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
             }
 
             @Override

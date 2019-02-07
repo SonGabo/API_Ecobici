@@ -2,9 +2,10 @@ package xyz.gabrielrohez.apiecobici.data.network.model;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class InfoStationResponse {
+public class InfoStationResponse implements Serializable {
     private List<Stations> stations;
 
     public List<Stations> getStations() {
@@ -22,7 +23,7 @@ public class InfoStationResponse {
                 '}';
     }
 
-    public static class Location {
+    public static class Location implements Serializable {
         private double lat;
         private double lon;
 
@@ -51,7 +52,7 @@ public class InfoStationResponse {
         }
     }
 
-    public static class Stations {
+    public static class Stations implements Serializable {
         private int id;
         private String name;
         private String address;

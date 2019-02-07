@@ -39,7 +39,7 @@ public class SplashInteractor implements SplashInteractorIn {
 
             @Override
             public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
-
+                listener.showError("Intente de nuevo mas tarde.");
             }
         });
     }
@@ -49,28 +49,32 @@ public class SplashInteractor implements SplashInteractorIn {
         RetrofitClient.getInstance().retrofit.create(ApiEndpointInterface.class).getAvailabilityStations(MySharedPreferences.getInstance().getAccessToken()).enqueue(new Callback<AvailabilityStationsResponse>() {
             @Override
             public void onResponse(Call<AvailabilityStationsResponse> call, Response<AvailabilityStationsResponse> response) {
-                obtainUbicationStations(listener, activity, response.body().getStationsStatus());
+                if (response.code()==200){
+                    obtainUbicationStations(listener, activity, response.body().getStationsStatus());
+                }else
+                    obtainAccessToken(listener, activity);
             }
 
             @Override
             public void onFailure(Call<AvailabilityStationsResponse> call, Throwable t) {
-                obtainAccessToken(listener, activity);
+                listener.showError("Intente de nuevo mas tarde.");
             }
         });
     }
 
     private void obtainUbicationStations(final SplashPresenterListener listener, final Activity activity, final List<AvailabilityStationsResponse.StationsStatus> stationsStatus) {
-        Log.d("salida", "entro");
-
         RetrofitClient.getInstance().retrofit.create(ApiEndpointInterface.class).getInfoStation(MySharedPreferences.getInstance().getAccessToken()).enqueue(new Callback<InfoStationResponse>() {
             @Override
             public void onResponse(Call<InfoStationResponse> call, Response<InfoStationResponse> response) {
-                listener.dataReceived(stationsStatus, response.body().getStations());
+                if (response.code()==200){
+                    listener.dataReceived(stationsStatus, response.body().getStations());
+                }else
+                    obtainAccessToken(listener, activity);
             }
 
             @Override
             public void onFailure(Call<InfoStationResponse> call, Throwable t) {
-                obtainAccessToken(listener, activity);
+                listener.showError("Intente de nuevo mas tarde.");
             }
         });
     }

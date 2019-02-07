@@ -25,6 +25,7 @@ public class RetrofitClient {
 
     private RetrofitClient() {
         Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
                 .setLenient()
                 .registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
                     public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

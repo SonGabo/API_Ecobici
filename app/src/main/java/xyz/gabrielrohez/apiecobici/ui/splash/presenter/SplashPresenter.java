@@ -36,4 +36,11 @@ public class SplashPresenter implements SplashPresenterIn, SplashPresenterListen
             view.dataReceived(stationsStatus, stationsInfo);
         }
     }
+
+    @Override
+    public void showError(String message) {
+        if (view != null){
+            view.showError(message);
+        }
+    }
 }

@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -67,5 +68,10 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
     public void dataReceived(List<AvailabilityStationsResponse.StationsStatus> stationsStatus, List<InfoStationResponse.Stations> stationsInfo) {
         startActivity(new Intent(SplashActivity.this, MainActivity.class));
         finish();
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

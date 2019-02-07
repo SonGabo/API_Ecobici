@@ -7,4 +7,6 @@ import xyz.gabrielrohez.apiecobici.data.network.model.InfoStationResponse;
 
 public interface SplashView {
     void dataReceived(List<AvailabilityStationsResponse.StationsStatus> stationsStatus, List<InfoStationResponse.Stations> stationsInfo);
+
+    void showError(String message);
 }

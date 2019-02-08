@@ -1,7 +1,6 @@
 package xyz.gabrielrohez.apiecobici.ui.splash.view;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +17,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import xyz.gabrielrohez.apiecobici.data.preferences.MySharedPreferences;
-import xyz.gabrielrohez.apiecobici.ui.main.MainActivity;
+import xyz.gabrielrohez.apiecobici.ui.main.view.MainActivity;
 import xyz.gabrielrohez.apiecobici.ui.splash.presenter.SplashPresenter;
 import xyz.gabrielrohez.apiecobici.ui.splash.presenter.SplashPresenterIn;
 import xyz.gabrielrohez.apiecobici.R;

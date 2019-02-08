@@ -1,11 +1,14 @@
 package xyz.gabrielrohez.apiecobici.data.network.model;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class InfoStationResponse implements Serializable {
+
+    @SerializedName("stations")
     private List<Stations> stations;
 
     public List<Stations> getStations() {
@@ -16,15 +19,10 @@ public class InfoStationResponse implements Serializable {
         this.stations = stations;
     }
 
-    @Override
-    public String toString() {
-        return "InfoStationResponse{" +
-                "stations=" + stations +
-                '}';
-    }
-
-    public static class Location implements Serializable {
+    public static class Location {
+        @SerializedName("lat")
         private double lat;
+        @SerializedName("lon")
         private double lon;
 
         public double getLat() {
@@ -42,28 +40,31 @@ public class InfoStationResponse implements Serializable {
         public void setLon(double lon) {
             this.lon = lon;
         }
-
-        @Override
-        public String toString() {
-            return "Location{" +
-                    "lat=" + lat +
-                    ", lon=" + lon +
-                    '}';
-        }
     }
 
-    public static class Stations implements Serializable {
+    public static class Stations {
+        @SerializedName("id")
         private int id;
+        @SerializedName("name")
         private String name;
+        @SerializedName("address")
         private String address;
+        @SerializedName("addressNumber")
         private String addressNumber;
+        @SerializedName("zipCode")
         private String zipCode;
+        @SerializedName("districtCode")
         private String districtCode;
+        @SerializedName("districtName")
         private String districtName;
+        @SerializedName("altitude")
         private String altitude;
+        @SerializedName("nearbyStations")
         @Expose
         private List<NearbyStations> nearbyStations;
+        @SerializedName("location")
         private Location location;
+        @SerializedName("stationType")
         private String stationType;
 
         public int getId() {
@@ -153,26 +154,9 @@ public class InfoStationResponse implements Serializable {
         public void setStationType(String stationType) {
             this.stationType = stationType;
         }
-
-        @Override
-        public String toString() {
-            return "Stations{" +
-                    "id=" + id +
-                    ", name='" + name + '\'' +
-                    ", address='" + address + '\'' +
-                    ", addressNumber='" + addressNumber + '\'' +
-                    ", zipCode='" + zipCode + '\'' +
-                    ", districtCode='" + districtCode + '\'' +
-                    ", districtName='" + districtName + '\'' +
-                    ", altitude='" + altitude + '\'' +
-                    ", nearbyStations=" + nearbyStations +
-                    ", location=" + location +
-                    ", stationType='" + stationType + '\'' +"\n\n"+
-                    '}';
-        }
     }
 
-    public static class NearbyStations {
+    public static class NearbyStations{
 
     }
 }

@@ -1,4 +1,4 @@
-package xyz.gabrielrohez.apiecobici.ui.main;
+package xyz.gabrielrohez.apiecobici.ui.main.view;
 
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,10 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import xyz.gabrielrohez.apiecobici.R;
+import xyz.gabrielrohez.apiecobici.data.preferences.MySharedPreferences;
+import xyz.gabrielrohez.apiecobici.ui.main.presenter.MainPresenter;
+import xyz.gabrielrohez.apiecobici.ui.main.presenter.MainPresenterIn;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView {
 
     private ViewPager mViewPager;
+    private MainPresenterIn presenter;
     private MyPagerAdapter mSectionsPagerAdapter;
 
     @Override
@@ -27,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        MySharedPreferences.getInstance(this);
+
+        presenter = new MainPresenter(this);
+        presenter.getAvailabilityStations();
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());

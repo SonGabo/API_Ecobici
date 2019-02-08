@@ -1,58 +1,83 @@
 package xyz.gabrielrohez.apiecobici.data.network.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
 public class AvailabilityStationsResponse implements Serializable {
-    private List<StationsStatus> stationsStatus;
 
-    public List<StationsStatus> getStationsStatus() {
+    @SerializedName("stationsStatus")
+    @Expose
+    private List<Stationsstatus> stationsStatus = null;
+
+    public List<Stationsstatus> getStationsStatus() {
         return stationsStatus;
     }
 
-    public void setStationsStatus(List<StationsStatus> stationsStatus) {
+    public void setStationsStatus(List<Stationsstatus> stationsStatus) {
         this.stationsStatus = stationsStatus;
     }
 
-    public static class Availability implements Serializable {
-        private int bikes;
-        private int slots;
+    @Override
+    public String toString() {
+        return "AvailabilityStationsResponse{" +
+                "stationsStatus=" + stationsStatus +
+                '}';
+    }
 
-        public int getBikes() {
+    public class Availability {
+
+        @SerializedName("bikes")
+        @Expose
+        private Integer bikes;
+        @SerializedName("slots")
+        @Expose
+        private Integer slots;
+
+        public Integer getBikes() {
             return bikes;
         }
 
-        public void setBikes(int bikes) {
+        public void setBikes(Integer bikes) {
             this.bikes = bikes;
         }
 
-        public int getSlots() {
+        public Integer getSlots() {
             return slots;
         }
 
-        public void setSlots(int slots) {
+        public void setSlots(Integer slots) {
             this.slots = slots;
         }
 
         @Override
         public String toString() {
-            return "Availability{" + "\n"+
-                    "bikes=" + bikes + "\n"+
+            return "Availability{" +
+                    "bikes=" + bikes +
                     ", slots=" + slots +
                     '}';
         }
     }
 
-    public static class StationsStatus implements Serializable {
-        private int id;
+    public class Stationsstatus {
+
+        @SerializedName("id")
+        @Expose
+        private Integer id;
+        @SerializedName("status")
+        @Expose
         private String status;
+        @SerializedName("availability")
+        @Expose
         private Availability availability;
 
-        public int getId() {
+        public Integer getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(Integer id) {
             this.id = id;
         }
 
@@ -74,18 +99,11 @@ public class AvailabilityStationsResponse implements Serializable {
 
         @Override
         public String toString() {
-            return "StationsStatus{" +"\n"+
-                    "id=" + id + "\n"+
-                    ", status='" + status + '\'' + "\n"+
+            return "Stationsstatus{" +
+                    "id=" + id +
+                    ", status='" + status + '\'' +
                     ", availability=" + availability +
                     '}';
         }
-    }
-
-    @Override
-    public String toString() {
-        return "AvailabilityStationsResponse{" + "\n"+
-                "stationsStatus=" + stationsStatus + "\n"+
-                '}';
     }
 }

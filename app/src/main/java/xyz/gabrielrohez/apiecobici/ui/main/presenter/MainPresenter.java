@@ -18,4 +18,11 @@ public class MainPresenter implements MainPresenterIn, MainPresenterListener{
     public void getAvailabilityStations() {
         interactor.getAvailabilityStations(this);
     }
+
+    @Override
+    public void showError(String message) {
+        if (view != null){
+            view.showError(message);
+        }
+    }
 }

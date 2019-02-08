@@ -9,69 +9,99 @@ import java.util.List;
 public class InfoStationResponse implements Serializable {
 
     @SerializedName("stations")
-    private List<Stations> stations;
+    @Expose
+    private List<Station> stations = null;
 
-    public List<Stations> getStations() {
+    public List<Station> getStations() {
         return stations;
     }
 
-    public void setStations(List<Stations> stations) {
+    public void setStations(List<Station> stations) {
         this.stations = stations;
     }
 
-    public static class Location {
-        @SerializedName("lat")
-        private double lat;
-        @SerializedName("lon")
-        private double lon;
+    @Override
+    public String toString() {
+        return "InfoStationResponse{" +
+                "stations=" + stations +
+                '}';
+    }
 
-        public double getLat() {
+    public class Location {
+
+        @SerializedName("lat")
+        @Expose
+        private Double lat;
+        @SerializedName("lon")
+        @Expose
+        private Double lon;
+
+        public Double getLat() {
             return lat;
         }
 
-        public void setLat(double lat) {
+        public void setLat(Double lat) {
             this.lat = lat;
         }
 
-        public double getLon() {
+        public Double getLon() {
             return lon;
         }
 
-        public void setLon(double lon) {
+        public void setLon(Double lon) {
             this.lon = lon;
+        }
+
+        @Override
+        public String toString() {
+            return "Location{" +
+                    "lat=" + lat +
+                    ", lon=" + lon +
+                    '}';
         }
     }
 
-    public static class Stations {
+    public class Station {
+
         @SerializedName("id")
-        private int id;
+        @Expose
+        private Integer id;
         @SerializedName("name")
+        @Expose
         private String name;
         @SerializedName("address")
+        @Expose
         private String address;
         @SerializedName("addressNumber")
+        @Expose
         private String addressNumber;
         @SerializedName("zipCode")
+        @Expose
         private String zipCode;
         @SerializedName("districtCode")
+        @Expose
         private String districtCode;
         @SerializedName("districtName")
+        @Expose
         private String districtName;
         @SerializedName("altitude")
-        private String altitude;
+        @Expose
+        private Object altitude;
         @SerializedName("nearbyStations")
         @Expose
-        private List<NearbyStations> nearbyStations;
+        private List<Integer> nearbyStations = null;
         @SerializedName("location")
+        @Expose
         private Location location;
         @SerializedName("stationType")
+        @Expose
         private String stationType;
 
-        public int getId() {
+        public Integer getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(Integer id) {
             this.id = id;
         }
 
@@ -123,19 +153,19 @@ public class InfoStationResponse implements Serializable {
             this.districtName = districtName;
         }
 
-        public String getAltitude() {
+        public Object getAltitude() {
             return altitude;
         }
 
-        public void setAltitude(String altitude) {
+        public void setAltitude(Object altitude) {
             this.altitude = altitude;
         }
 
-        public List<NearbyStations> getNearbyStations() {
+        public List<Integer> getNearbyStations() {
             return nearbyStations;
         }
 
-        public void setNearbyStations(List<NearbyStations> nearbyStations) {
+        public void setNearbyStations(List<Integer> nearbyStations) {
             this.nearbyStations = nearbyStations;
         }
 
@@ -154,9 +184,22 @@ public class InfoStationResponse implements Serializable {
         public void setStationType(String stationType) {
             this.stationType = stationType;
         }
-    }
 
-    public static class NearbyStations{
-
+        @Override
+        public String toString() {
+            return "Station{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", address='" + address + '\'' +
+                    ", addressNumber='" + addressNumber + '\'' +
+                    ", zipCode='" + zipCode + '\'' +
+                    ", districtCode='" + districtCode + '\'' +
+                    ", districtName='" + districtName + '\'' +
+                    ", altitude=" + altitude +
+                    ", nearbyStations=" + nearbyStations +
+                    ", location=" + location +
+                    ", stationType='" + stationType + '\'' +
+                    '}';
+        }
     }
 }

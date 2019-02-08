@@ -12,23 +12,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import xyz.gabrielrohez.apiecobici.R;
-import xyz.gabrielrohez.apiecobici.data.network.model.AvailabilityStationsResponse;
-import xyz.gabrielrohez.apiecobici.data.network.model.InfoStationResponse;
 import xyz.gabrielrohez.apiecobici.data.preferences.MySharedPreferences;
 import xyz.gabrielrohez.apiecobici.ui.main.MainActivity;
 import xyz.gabrielrohez.apiecobici.ui.splash.presenter.SplashPresenter;
 import xyz.gabrielrohez.apiecobici.ui.splash.presenter.SplashPresenterIn;
+import xyz.gabrielrohez.apiecobici.R;
 
 public class SplashActivity extends AppCompatActivity implements SplashView {
 
@@ -51,7 +44,7 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
 
         ButterKnife.bind(this);
 
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.animation_logo);
+        animation = AnimationUtils.loadAnimation(this, R.anim.animation_logo);
         title.startAnimation(animation);
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -60,17 +53,12 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
         presenter = new SplashPresenter(this);
         MySharedPreferences.getInstance(this);
 
-        if (MySharedPreferences.getInstance().getAccessToken().isEmpty()){
-            presenter.obtainAccessToken(this);
-        }else
-            presenter.obtainInfoStations(this);
+        presenter.obtainAccessToken(this);
     }
 
     @Override
-    public void dataReceived(List<AvailabilityStationsResponse.StationsStatus> stationsStatus, List<InfoStationResponse.Stations> stationsInfo) {
-        //startActivity(new Intent(SplashActivity.this, MainActivity.class).putExtra("stationStatus", stationsStatus));
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+    public void openNextActivity() {
+        startActivity(new Intent(SplashActivity.this, MainActivity.class));
         finish();
     }
 

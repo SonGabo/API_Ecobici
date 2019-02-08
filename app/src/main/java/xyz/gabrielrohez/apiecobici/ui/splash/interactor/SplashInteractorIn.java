@@ -6,6 +6,4 @@ import xyz.gabrielrohez.apiecobici.ui.splash.presenter.SplashPresenterListener;
 
 public interface SplashInteractorIn {
     void obtainAccessToken(SplashPresenterListener listener, Activity activity);
-
-    void obtainInfoStations(SplashPresenterListener listener, Activity activity);
 }

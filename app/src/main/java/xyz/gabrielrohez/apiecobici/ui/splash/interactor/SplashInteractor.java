@@ -38,52 +38,14 @@ public class SplashInteractor implements SplashInteractorIn {
                     MySharedPreferences.getInstance().setAccessToken(response.body().getAccessToken());
                     MySharedPreferences.getInstance().setRefreshToken(response.body().getAccessToken());
                     MySharedPreferences.getInstance().setLastTime(currentDateandTime);
-                    obtainInfoStations(listener, activity);
+                    Log.d("dato_recibido", response.body().getAccessToken());
+                    listener.openNextActivity();
                 }else
                     listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
             }
 
             @Override
             public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
-                listener.showError("Intente de nuevo mas tarde.");
-            }
-        });
-    }
-
-    @Override
-    public void obtainInfoStations(final SplashPresenterListener listener, final Activity activity) {
-        RetrofitClient.getInstance().retrofit.create(ApiEndpointInterface.class).getAvailabilityStations(MySharedPreferences.getInstance().getAccessToken()).enqueue(new Callback<AvailabilityStationsResponse>() {
-            @Override
-            public void onResponse(Call<AvailabilityStationsResponse> call, Response<AvailabilityStationsResponse> response) {
-                if (response.code()==200){
-                    obtainUbicationStations(listener, activity, response.body().getStationsStatus());
-                }else if (response.code()==401)
-                    obtainAccessToken(listener, activity);
-                else
-                    listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
-            }
-
-            @Override
-            public void onFailure(Call<AvailabilityStationsResponse> call, Throwable t) {
-                listener.showError("Intente de nuevo mas tarde.");
-            }
-        });
-    }
-
-    private void obtainUbicationStations(final SplashPresenterListener listener, final Activity activity, final List<AvailabilityStationsResponse.StationsStatus> stationsStatus) {
-        RetrofitClient.getInstance().retrofit.create(ApiEndpointInterface.class).getInfoStation(MySharedPreferences.getInstance().getAccessToken()).enqueue(new Callback<InfoStationResponse>() {
-            @Override
-            public void onResponse(Call<InfoStationResponse> call, Response<InfoStationResponse> response) {
-                if (response.code()==200){
-                    listener.dataReceived(stationsStatus, response.body().getStations());
-                }else if (response.code()==401)
-                    obtainAccessToken(listener, activity);
-                else
-                    listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
-            }
-
-            @Override
-            public void onFailure(Call<InfoStationResponse> call, Throwable t) {
                 listener.showError("Intente de nuevo mas tarde.");
             }
         });

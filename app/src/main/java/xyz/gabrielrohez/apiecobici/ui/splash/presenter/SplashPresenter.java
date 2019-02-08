@@ -26,14 +26,9 @@ public class SplashPresenter implements SplashPresenterIn, SplashPresenterListen
     }
 
     @Override
-    public void obtainInfoStations(Activity activity) {
-        interactor.obtainInfoStations(this, activity);
-    }
-
-    @Override
-    public void dataReceived(List<AvailabilityStationsResponse.StationsStatus> stationsStatus, List<InfoStationResponse.Stations> stationsInfo) {
+    public void openNextActivity() {
         if (view != null){
-            view.dataReceived(stationsStatus, stationsInfo);
+            view.openNextActivity();
         }
     }
 

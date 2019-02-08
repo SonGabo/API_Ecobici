@@ -1,6 +1,5 @@
 package xyz.gabrielrohez.apiecobici.ui.main;
 
-import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,19 +7,13 @@ import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import xyz.gabrielrohez.apiecobici.R;
-import xyz.gabrielrohez.apiecobici.data.network.model.AvailabilityStationsResponse;
-import xyz.gabrielrohez.apiecobici.ui.splash.view.SplashActivity;
 
 public class MainActivity extends AppCompatActivity {
 

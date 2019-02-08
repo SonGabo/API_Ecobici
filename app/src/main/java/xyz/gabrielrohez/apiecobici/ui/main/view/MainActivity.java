@@ -14,7 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.List;
+
 import xyz.gabrielrohez.apiecobici.R;
+import xyz.gabrielrohez.apiecobici.data.network.model.AvailabilityStationsResponse;
+import xyz.gabrielrohez.apiecobici.data.network.model.InfoStationResponse;
 import xyz.gabrielrohez.apiecobici.data.preferences.MySharedPreferences;
 import xyz.gabrielrohez.apiecobici.ui.main.presenter.MainPresenter;
 import xyz.gabrielrohez.apiecobici.ui.main.presenter.MainPresenterIn;
@@ -36,9 +40,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         presenter = new MainPresenter(this);
         presenter.getAvailabilityStations();
+    }
+
+    @Override
+    public void dataReceived(List<InfoStationResponse.Station> infoStations, List<AvailabilityStationsResponse.Stationsstatus> stationStatus) {
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), infoStations, stationStatus);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);

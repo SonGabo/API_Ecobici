@@ -39,7 +39,7 @@ public class MainInteractor implements MainInteractorIn {
             @Override
             public void onResponse(Call<InfoStationResponse> call, Response<InfoStationResponse> response) {
                 if (response.code() == 200){
-                    Log.d("respuesta", response.body().getStations().toString());
+                    listener.dataReceived(response.body().getStations(), stationsStatus);
                 }else
                     listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
             }

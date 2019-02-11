@@ -1,16 +1,45 @@
 package xyz.gabrielrohez.apiecobici.data.network.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class InfoStationResponse implements Serializable {
+public class InfoStationResponse implements Parcelable {
 
     @SerializedName("stations")
     @Expose
     private List<Station> stations = null;
+
+    protected InfoStationResponse(Parcel in) {
+        stations = in.createTypedArrayList(Station.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(stations);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<InfoStationResponse> CREATOR = new Creator<InfoStationResponse>() {
+        @Override
+        public InfoStationResponse createFromParcel(Parcel in) {
+            return new InfoStationResponse(in);
+        }
+
+        @Override
+        public InfoStationResponse[] newArray(int size) {
+            return new InfoStationResponse[size];
+        }
+    };
 
     public List<Station> getStations() {
         return stations;
@@ -27,7 +56,7 @@ public class InfoStationResponse implements Serializable {
                 '}';
     }
 
-    public class Location {
+    public class Location implements Parcelable {
 
         @SerializedName("lat")
         @Expose
@@ -35,6 +64,52 @@ public class InfoStationResponse implements Serializable {
         @SerializedName("lon")
         @Expose
         private Double lon;
+
+        protected Location(Parcel in) {
+            if (in.readByte() == 0) {
+                lat = null;
+            } else {
+                lat = in.readDouble();
+            }
+            if (in.readByte() == 0) {
+                lon = null;
+            } else {
+                lon = in.readDouble();
+            }
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            if (lat == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeDouble(lat);
+            }
+            if (lon == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeDouble(lon);
+            }
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public final Creator<Location> CREATOR = new Creator<Location>() {
+            @Override
+            public Location createFromParcel(Parcel in) {
+                return new Location(in);
+            }
+
+            @Override
+            public Location[] newArray(int size) {
+                return new Location[size];
+            }
+        };
 
         public Double getLat() {
             return lat;
@@ -61,7 +136,7 @@ public class InfoStationResponse implements Serializable {
         }
     }
 
-    public class Station {
+    public static class Station implements Parcelable {
 
         @SerializedName("id")
         @Expose
@@ -96,6 +171,55 @@ public class InfoStationResponse implements Serializable {
         @SerializedName("stationType")
         @Expose
         private String stationType;
+
+        protected Station(Parcel in) {
+            if (in.readByte() == 0) {
+                id = null;
+            } else {
+                id = in.readInt();
+            }
+            name = in.readString();
+            address = in.readString();
+            addressNumber = in.readString();
+            zipCode = in.readString();
+            districtCode = in.readString();
+            districtName = in.readString();
+            stationType = in.readString();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            if (id == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeInt(id);
+            }
+            dest.writeString(name);
+            dest.writeString(address);
+            dest.writeString(addressNumber);
+            dest.writeString(zipCode);
+            dest.writeString(districtCode);
+            dest.writeString(districtName);
+            dest.writeString(stationType);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<Station> CREATOR = new Creator<Station>() {
+            @Override
+            public Station createFromParcel(Parcel in) {
+                return new Station(in);
+            }
+
+            @Override
+            public Station[] newArray(int size) {
+                return new Station[size];
+            }
+        };
 
         public Integer getId() {
             return id;

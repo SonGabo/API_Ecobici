@@ -2,6 +2,7 @@ package xyz.gabrielrohez.apiecobici.ui.stationinfo;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import xyz.gabrielrohez.apiecobici.R;
@@ -23,9 +25,10 @@ public class StationInfoFragment extends Fragment {
     private View view;
 
     public static StationInfoFragment newInstance(List<InfoStationResponse.Station> infoStations) {
-        Bundle args = new Bundle();
-        args.putSerializable("infoStations", (Serializable) infoStations);
         StationInfoFragment fragment = new StationInfoFragment();
+        Bundle args = new Bundle();
+        //args.putParcelableArrayList("infoStations", (ArrayList<? extends Parcelable>) infoStations);
+        args.putParcelableArrayList("infoStations", (ArrayList<? extends Parcelable>) infoStations);
         fragment.setArguments(args);
         return fragment;
     }
@@ -35,9 +38,8 @@ public class StationInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_station_info, container, false);
 
-        List<InfoStationResponse.Station> info;
-        info = (List<InfoStationResponse.Station>) getArguments().getSerializable("infoStations");
-        Log.d("dato_serializado", inflater.toString());
+        List<InfoStationResponse.Station> info = getArguments().getParcelableArrayList("infoStations");
+        Log.d("dato_serializado", info.toString());
         return view;
     }
 

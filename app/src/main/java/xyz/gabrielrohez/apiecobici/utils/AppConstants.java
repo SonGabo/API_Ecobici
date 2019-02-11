@@ -6,6 +6,9 @@ public class AppConstants {
     public static final String BASE_URL_TOKEN   =           "https://pubsbapi.smartbike.com/oauth/v2/";
     public static final String BASE_URL         =           "https://pubsbapi.smartbike.com/api/v1/";
     public static final String GRANT_TYPE       =           "client_credentials";
+    public static final String BIKE_AVAILABILITY=           "availability_bike";
+    public static final String BIKE_STATUS      =           "status_bike";
+    public static final String NAME_DATABASE    =           "database";
 
     //  http://www.jsonschema2pojo.org/
     //  DTO Generator

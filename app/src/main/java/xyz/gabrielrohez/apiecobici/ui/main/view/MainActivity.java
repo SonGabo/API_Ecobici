@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import xyz.gabrielrohez.apiecobici.R;
+import xyz.gabrielrohez.apiecobici.data.Room.db.AppDB;
 import xyz.gabrielrohez.apiecobici.data.network.model.AvailabilityStationsResponse;
 import xyz.gabrielrohez.apiecobici.data.network.model.InfoStationResponse;
 import xyz.gabrielrohez.apiecobici.data.preferences.MySharedPreferences;
@@ -39,7 +41,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
         MySharedPreferences.getInstance(this);
 
         presenter = new MainPresenter(this);
-        presenter.getAvailabilityStations();
+        //presenter.getAvailabilityStations();
+        Log.d("todas_bikes", AppDB.getAppDB(this).statusDAO().getAllBikes().toString());
+        Log.d("todos_dispo", AppDB.getAppDB(this).availableDAO().getAllAvailable().toString());
     }
 
     @Override

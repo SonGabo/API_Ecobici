@@ -1,7 +1,5 @@
 package xyz.gabrielrohez.apiecobici.ui.main.interactor;
 
-import android.util.Log;
-
 import java.util.List;
 
 import retrofit2.Call;
@@ -12,12 +10,12 @@ import xyz.gabrielrohez.apiecobici.data.network.RetrofitClient;
 import xyz.gabrielrohez.apiecobici.data.network.model.AvailabilityStationsResponse;
 import xyz.gabrielrohez.apiecobici.data.network.model.InfoStationResponse;
 import xyz.gabrielrohez.apiecobici.data.preferences.MySharedPreferences;
-import xyz.gabrielrohez.apiecobici.ui.main.presenter.MainPresenterListener;
+import xyz.gabrielrohez.apiecobici.ui.main.presenter.MapsPresenterListener;
 
-public class MainInteractor implements MainInteractorIn {
+public class MapsInteractor implements MapsInteractorIn {
 
     @Override
-    public void getAvailabilityStations(final MainPresenterListener listener) {
+    public void getAvailabilityStations(final MapsPresenterListener listener) {
         RetrofitClient.getInstance().retrofit.create(ApiEndpointInterface.class).getAvailabilityStations(MySharedPreferences.getInstance().getAccessToken()).enqueue(new Callback<AvailabilityStationsResponse>() {
             @Override
             public void onResponse(Call<AvailabilityStationsResponse> call, Response<AvailabilityStationsResponse> response) {
@@ -34,7 +32,7 @@ public class MainInteractor implements MainInteractorIn {
         });
     }
 
-    private void getStatusStations(final MainPresenterListener listener, final List<AvailabilityStationsResponse.Stationsstatus> stationsStatus) {
+    private void getStatusStations(final MapsPresenterListener listener, final List<AvailabilityStationsResponse.Stationsstatus> stationsStatus) {
         RetrofitClient.getInstance().retrofit.create(ApiEndpointInterface.class).getInfoStation(MySharedPreferences.getInstance().getAccessToken()).enqueue(new Callback<InfoStationResponse>() {
             @Override
             public void onResponse(Call<InfoStationResponse> call, Response<InfoStationResponse> response) {

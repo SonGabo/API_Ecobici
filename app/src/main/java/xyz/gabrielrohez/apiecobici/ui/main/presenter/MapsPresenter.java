@@ -4,18 +4,18 @@ import java.util.List;
 
 import xyz.gabrielrohez.apiecobici.data.network.model.AvailabilityStationsResponse;
 import xyz.gabrielrohez.apiecobici.data.network.model.InfoStationResponse;
-import xyz.gabrielrohez.apiecobici.ui.main.interactor.MainInteractor;
-import xyz.gabrielrohez.apiecobici.ui.main.interactor.MainInteractorIn;
-import xyz.gabrielrohez.apiecobici.ui.main.view.MainView;
+import xyz.gabrielrohez.apiecobici.ui.main.interactor.MapsInteractor;
+import xyz.gabrielrohez.apiecobici.ui.main.interactor.MapsInteractorIn;
+import xyz.gabrielrohez.apiecobici.ui.main.view.MapsView;
 
-public class MainPresenter implements MainPresenterIn, MainPresenterListener{
+public class MapsPresenter implements MapsPresenterIn, MapsPresenterListener {
 
-    private MainView view;
-    private MainInteractorIn interactor;
+    private MapsView view;
+    private MapsInteractorIn interactor;
 
-    public MainPresenter(MainView view) {
+    public MapsPresenter(MapsView view) {
         this.view = view;
-        interactor = new MainInteractor();
+        interactor = new MapsInteractor();
     }
 
     @Override

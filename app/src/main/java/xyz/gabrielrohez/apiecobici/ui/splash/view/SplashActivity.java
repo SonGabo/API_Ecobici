@@ -17,7 +17,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import xyz.gabrielrohez.apiecobici.data.preferences.MySharedPreferences;
-import xyz.gabrielrohez.apiecobici.ui.main.view.MainActivity;
+import xyz.gabrielrohez.apiecobici.ui.main.view.MapsActivity;
 import xyz.gabrielrohez.apiecobici.ui.splash.presenter.SplashPresenter;
 import xyz.gabrielrohez.apiecobici.ui.splash.presenter.SplashPresenterIn;
 import xyz.gabrielrohez.apiecobici.R;
@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
 
     @Override
     public void openNextActivity() {
-        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        startActivity(new Intent(SplashActivity.this, MapsActivity.class));
         finish();
     }
 

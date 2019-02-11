@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,7 +18,6 @@ import xyz.gabrielrohez.apiecobici.data.network.model.AccessTokenResponse;
 import xyz.gabrielrohez.apiecobici.data.network.model.AvailabilityStationsResponse;
 import xyz.gabrielrohez.apiecobici.data.network.model.InfoStationResponse;
 import xyz.gabrielrohez.apiecobici.data.preferences.MySharedPreferences;
-import xyz.gabrielrohez.apiecobici.ui.main.presenter.MainPresenterListener;
 import xyz.gabrielrohez.apiecobici.ui.splash.presenter.SplashPresenterListener;
 import xyz.gabrielrohez.apiecobici.utils.AppConstants;
 

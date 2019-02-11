@@ -1,5 +1,5 @@
 package xyz.gabrielrohez.apiecobici.ui.main.presenter;
 
-public interface MainPresenterIn {
+public interface MapsPresenterIn {
     void getAvailabilityStations();
 }

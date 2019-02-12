@@ -9,6 +9,7 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 import xyz.gabrielrohez.apiecobici.data.Room.entity.StatusBikesEntity;
+import xyz.gabrielrohez.apiecobici.data.network.model.StationsModel;
 
 @Dao
 public interface StatusDAO {

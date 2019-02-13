@@ -2,15 +2,9 @@ package xyz.gabrielrohez.apiecobici.ui.main.view;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -25,8 +19,6 @@ import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.List;
-
-import xyz.gabrielrohez.apiecobici.BuildConfig;
 import xyz.gabrielrohez.apiecobici.R;
 import xyz.gabrielrohez.apiecobici.data.Room.entity.StatusBikesEntity;
 import xyz.gabrielrohez.apiecobici.data.network.model.MyClusterItem;
@@ -34,6 +26,7 @@ import xyz.gabrielrohez.apiecobici.ui.main.presenter.MapsPresenter;
 import xyz.gabrielrohez.apiecobici.ui.main.presenter.MapsPresenterIn;
 import xyz.gabrielrohez.apiecobici.utils.MyClusterRenderer;
 import xyz.gabrielrohez.apiecobici.utils.MyLocation;
+import xyz.gabrielrohez.apiecobici.utils.Utils;
 
 public class MapsActivity extends AppCompatActivity implements MapsView, OnMapReadyCallback {
 
@@ -47,14 +40,13 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         presenter = new MapsPresenter(this);
-        setUpMap();
 
+        setUpMap();
     }
 
     private void setUpMap() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -65,30 +57,21 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
         mMap.clear();
         presenter.getStations(this);
 
-        if (isEnablePermission()){
+        if (Utils.isEnablePermission(this)){
             getMap().setMyLocationEnabled(true);
             MyLocation.LocationResult locationResult = new MyLocation.LocationResult(){
                 @Override
                 public void gotLocation(Location location){
                     // Position the map.
                     getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
-
                 }
             };
             MyLocation myLocation = new MyLocation();
             myLocation.getLocation(this, locationResult);
         }else
             // Position the map.
+            // no permission, show map in Mexico City
             getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(19.380929, -99.164088), 10));
-    }
-
-    private boolean isEnablePermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MapsActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
-            return false;
-        } else
-            return true;
     }
 
     @Override
@@ -101,33 +84,13 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
                     onMapReady(mMap);
                 } else {
                     // permission denied, boo! Disable the
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle(R.string.need_permission);
-                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            openPermissionSettings(MapsActivity.this);
-                        }
-                    });
-                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                    Utils.showDialogPermission(this);
                 }
                 return;
             }
         }
     }
 
-    public static void openPermissionSettings(Activity activity) {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.parse("package:" + activity.getPackageName()));
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        activity.startActivity(intent);
-    }
     /**
      * get map
      * @return

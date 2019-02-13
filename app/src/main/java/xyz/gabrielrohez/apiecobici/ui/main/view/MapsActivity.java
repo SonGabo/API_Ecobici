@@ -5,11 +5,11 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,7 +25,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import xyz.gabrielrohez.apiecobici.R;
 import xyz.gabrielrohez.apiecobici.data.Room.db.AppDB;
 import xyz.gabrielrohez.apiecobici.data.Room.entity.AvailabilityBikesEntity;
@@ -50,6 +49,7 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
     private ClusterManager<MyClusterItem> mClusterManager;
     SlidingUpPanelLayout.PanelState stateOpen = SlidingUpPanelLayout.PanelState.EXPANDED;
     SlidingUpPanelLayout.PanelState stateClose = SlidingUpPanelLayout.PanelState.COLLAPSED;
+    SlidingUpPanelLayout.PanelState stateHidde = SlidingUpPanelLayout.PanelState.HIDDEN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
 
     private void setUpPanelUp() {
         slideupPannel = (SlidingUpPanelLayout) findViewById(R.id.slide_layout);
-        slideupPannel.setPanelState(stateClose);
+        slideupPannel.setPanelState(stateHidde);
         slideupPannel.addPanelSlideListener(this);
     }
 
@@ -79,6 +79,7 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(19.380929, -99.164088), 12));
         mMap.clear();
         mMap.setOnMapClickListener(mMapClickListener);
 
@@ -97,7 +98,6 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
         }else{
             // Position the map.
             // no permission, show map in Mexico City
-            getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(19.380929, -99.164088), 10));
             presenter.getStations(this);
         }
     }
@@ -211,8 +211,31 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
     @Override
     protected void onRestart() {
         super.onRestart();
-        onMapReady(mMap);
+        //onMapReady(mMap);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_reload) {
+            //  TODO :: get all data
+            //presenter.getStations(this);
+            slideupPannel.setPanelState(stateHidde);
+            onMapReady(mMap);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

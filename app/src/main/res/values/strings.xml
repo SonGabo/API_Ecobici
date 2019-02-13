@@ -17,4 +17,5 @@
     <string name="error_in_request">Ocurrio un error</string>
     <string name="try_again">Volver a intentar</string>
     <string name="exit">Salir</string>
+    <string name="action_reload">reload</string>
 </resources>

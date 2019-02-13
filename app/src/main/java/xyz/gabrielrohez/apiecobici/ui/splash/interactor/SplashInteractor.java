@@ -20,42 +20,48 @@ import xyz.gabrielrohez.apiecobici.data.network.model.InfoStationResponse;
 import xyz.gabrielrohez.apiecobici.data.preferences.MySharedPreferences;
 import xyz.gabrielrohez.apiecobici.ui.splash.presenter.SplashPresenterListener;
 import xyz.gabrielrohez.apiecobici.utils.AppConstants;
+import xyz.gabrielrohez.apiecobici.utils.Utils;
 
 public class SplashInteractor implements SplashInteractorIn {
 
     @Override
     public void obtainAccessToken(final SplashPresenterListener listener, final Activity activity) {
-        MySharedPreferences.getInstance(activity);
 
-        RetrofitClient.getInstance().retrofit_token.create(ApiEndpointInterface.class).obtainAccessToken(AppConstants.CLIENT_ID, AppConstants.CLIENT_SECRET, AppConstants.GRANT_TYPE).enqueue(new Callback<AccessTokenResponse>() {
-            @Override
-            public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
+        if (Utils.isOnline(activity)){
+            MySharedPreferences.getInstance(activity);
 
-                if (response.body().getAccessToken()!=null){
-                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                    final String currentDateandTime = sdf.format(new Date());
+            RetrofitClient.getInstance().retrofit_token.create(ApiEndpointInterface.class).obtainAccessToken(AppConstants.CLIENT_ID, AppConstants.CLIENT_SECRET, AppConstants.GRANT_TYPE).enqueue(new Callback<AccessTokenResponse>() {
+                @Override
+                public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
 
-                    MySharedPreferences.getInstance().setAccessToken(response.body().getAccessToken());
-                    MySharedPreferences.getInstance().setRefreshToken(response.body().getAccessToken());
-                    MySharedPreferences.getInstance().setLastTime(currentDateandTime);
-                    Log.d("dato_recibido", response.body().getAccessToken());
-                    getAvailabilityStations(listener, activity);
-                }else{
+                    if (response.body().getAccessToken()!=null){
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                        final String currentDateandTime = sdf.format(new Date());
+
+                        MySharedPreferences.getInstance().setAccessToken(response.body().getAccessToken());
+                        MySharedPreferences.getInstance().setRefreshToken(response.body().getAccessToken());
+                        MySharedPreferences.getInstance().setLastTime(currentDateandTime);
+                        Log.d("dato_recibido", response.body().getAccessToken());
+                        getAvailabilityStations(listener, activity);
+                    }else{
+                        if (AppDB.getAppDB(activity).statusDAO().getAllBikes().isEmpty()){
+                            listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
+                        }else
+                            listener.openNextActivity();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
                     if (AppDB.getAppDB(activity).statusDAO().getAllBikes().isEmpty()){
-                        listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
+                        listener.showError("Intente de nuevo mas tarde.");
                     }else
                         listener.openNextActivity();
                 }
-            }
+            });
+        } else
+            listener.showError("No tiene acceso a internet, verifique su conexión.");
 
-            @Override
-            public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
-                if (AppDB.getAppDB(activity).statusDAO().getAllBikes().isEmpty()){
-                    listener.showError("Intente de nuevo mas tarde.");
-                }else
-                    listener.openNextActivity();
-            }
-        });
     }
 
     public void getAvailabilityStations(final SplashPresenterListener listener, final Activity activity) {

@@ -45,4 +45,7 @@ dependencies {
 
     //  Maps utils / Cluster
     implementation 'com.google.maps.android:android-maps-utils:0.5+'
+
+    //  slidinguppanel
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
 }

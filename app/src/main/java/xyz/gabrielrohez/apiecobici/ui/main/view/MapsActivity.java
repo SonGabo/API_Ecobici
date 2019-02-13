@@ -1,12 +1,9 @@
 package xyz.gabrielrohez.apiecobici.ui.main.view;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -24,7 +21,6 @@ import xyz.gabrielrohez.apiecobici.R;
 import xyz.gabrielrohez.apiecobici.data.Room.db.AppDB;
 import xyz.gabrielrohez.apiecobici.data.Room.entity.AvailabilityBikesEntity;
 import xyz.gabrielrohez.apiecobici.data.Room.entity.StatusBikesEntity;
-import xyz.gabrielrohez.apiecobici.data.network.model.AvailabilityStationsResponse;
 import xyz.gabrielrohez.apiecobici.data.network.model.MyClusterItem;
 import xyz.gabrielrohez.apiecobici.ui.main.presenter.MapsPresenter;
 import xyz.gabrielrohez.apiecobici.ui.main.presenter.MapsPresenterIn;

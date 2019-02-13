@@ -9,6 +9,7 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 import xyz.gabrielrohez.apiecobici.data.Room.entity.AvailabilityBikesEntity;
+import xyz.gabrielrohez.apiecobici.data.network.model.AvailabilityStationsResponse;
 import xyz.gabrielrohez.apiecobici.data.network.model.StationsModel;
 
 @Dao
@@ -19,6 +20,9 @@ public interface AvailableDAO {
 
     @Query("SELECT * FROM availability_bike")
     List<AvailabilityBikesEntity> getAllAvailable();
+
+    @Query("SELECT * FROM availability_bike WHERE id_available=:id")
+    AvailabilityBikesEntity getStatusStation(int id);
 
     @Update
     void update(AvailabilityBikesEntity availabilityBikesEntity);

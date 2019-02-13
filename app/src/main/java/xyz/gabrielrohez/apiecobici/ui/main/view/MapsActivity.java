@@ -22,7 +22,9 @@ import com.google.maps.android.clustering.ClusterManager;
 import java.util.List;
 import xyz.gabrielrohez.apiecobici.R;
 import xyz.gabrielrohez.apiecobici.data.Room.db.AppDB;
+import xyz.gabrielrohez.apiecobici.data.Room.entity.AvailabilityBikesEntity;
 import xyz.gabrielrohez.apiecobici.data.Room.entity.StatusBikesEntity;
+import xyz.gabrielrohez.apiecobici.data.network.model.AvailabilityStationsResponse;
 import xyz.gabrielrohez.apiecobici.data.network.model.MyClusterItem;
 import xyz.gabrielrohez.apiecobici.ui.main.presenter.MapsPresenter;
 import xyz.gabrielrohez.apiecobici.ui.main.presenter.MapsPresenterIn;
@@ -131,7 +133,8 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
     private void addItems(List<StatusBikesEntity> list) {
 
         for (StatusBikesEntity result : list){
-            MyClusterItem myClusterItem = new MyClusterItem(new LatLng(result.getLat(), result.getLon()), result.getName(), result.getAddress(), result.getId());
+            AvailabilityBikesEntity availability = AppDB.getAppDB(this).availableDAO().getStatusStation(result.getId());
+            MyClusterItem myClusterItem = new MyClusterItem(new LatLng(result.getLat(), result.getLon()), result.getName(), result.getAddress(), result.getId(), availability.getBikes(), availability.getSlots());
             mClusterManager.addItem(myClusterItem);
         }
     }

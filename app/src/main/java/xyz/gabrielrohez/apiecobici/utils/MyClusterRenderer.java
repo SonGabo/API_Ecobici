@@ -25,7 +25,14 @@ public class MyClusterRenderer extends DefaultClusterRenderer<MyClusterItem> {
         super.onBeforeClusterItemRendered(item, markerOptions);
 
         markerOptions.title(item.getTitle());
-        markerOptions.icon(Utils.bitmapDescriptorFromVector(context, R.drawable.ic_bike));
+        int total = item.getBikes() + item.getSlotes();
+        if (item.getBikes() < (total/2)){
+            if (item.getBikes() == 0){
+                markerOptions.icon(Utils.bitmapDescriptorFromVector(context, R.drawable.ic_station_red));
+            }else
+                markerOptions.icon(Utils.bitmapDescriptorFromVector(context, R.drawable.ic_station_yellow));
+        }else
+            markerOptions.icon(Utils.bitmapDescriptorFromVector(context, R.drawable.ic_station_green));
     }
 
     @Override

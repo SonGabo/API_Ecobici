@@ -6,6 +6,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -15,33 +17,53 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.ButterKnife;
 import xyz.gabrielrohez.apiecobici.R;
 import xyz.gabrielrohez.apiecobici.data.Room.db.AppDB;
 import xyz.gabrielrohez.apiecobici.data.Room.entity.AvailabilityBikesEntity;
 import xyz.gabrielrohez.apiecobici.data.Room.entity.StatusBikesEntity;
 import xyz.gabrielrohez.apiecobici.data.network.model.MyClusterItem;
+import xyz.gabrielrohez.apiecobici.data.network.model.StationsModel;
 import xyz.gabrielrohez.apiecobici.ui.main.presenter.MapsPresenter;
 import xyz.gabrielrohez.apiecobici.ui.main.presenter.MapsPresenterIn;
 import xyz.gabrielrohez.apiecobici.utils.MyClusterRenderer;
 import xyz.gabrielrohez.apiecobici.utils.MyLocation;
 import xyz.gabrielrohez.apiecobici.utils.Utils;
 
-public class MapsActivity extends AppCompatActivity implements MapsView, OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements MapsView, OnMapReadyCallback, SlidingUpPanelLayout.PanelSlideListener {
+
+    @BindViews({R.id.panelTitle, R.id.panelNumberBikes, R.id.panelNumberSlots})List<TextView> input;
 
     int zoom;
     private GoogleMap mMap;
     private MapsPresenterIn presenter;
+    private SlidingUpPanelLayout slideupPannel;
     private ClusterManager<MyClusterItem> mClusterManager;
+    SlidingUpPanelLayout.PanelState stateOpen = SlidingUpPanelLayout.PanelState.EXPANDED;
+    SlidingUpPanelLayout.PanelState stateClose = SlidingUpPanelLayout.PanelState.COLLAPSED;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        ButterKnife.bind(this);
+
         presenter = new MapsPresenter(this);
 
         setUpMap();
+        setUpPanelUp();
+    }
+
+    private void setUpPanelUp() {
+        slideupPannel = (SlidingUpPanelLayout) findViewById(R.id.slide_layout);
+        slideupPannel.setPanelState(stateClose);
+        slideupPannel.addPanelSlideListener(this);
     }
 
     private void setUpMap() {
@@ -55,10 +77,11 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.clear();
-        presenter.getStations(this);
+        mMap.setOnMapClickListener(mMapClickListener);
 
         if (Utils.isEnablePermission(this)){
             getMap().setMyLocationEnabled(true);
+            presenter.getStations(this);
             MyLocation.LocationResult locationResult = new MyLocation.LocationResult(){
                 @Override
                 public void gotLocation(Location location){
@@ -68,10 +91,12 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
             };
             MyLocation myLocation = new MyLocation();
             myLocation.getLocation(this, locationResult);
-        }else
+        }else{
             // Position the map.
             // no permission, show map in Mexico City
             getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(19.380929, -99.164088), 10));
+            presenter.getStations(this);
+        }
     }
 
     @Override
@@ -141,12 +166,26 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
     public ClusterManager.OnClusterItemClickListener<MyClusterItem> mClusterItemClickListener = new ClusterManager.OnClusterItemClickListener<MyClusterItem>() {
         @Override
         public boolean onClusterItemClick(MyClusterItem item) {
-            getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(item.getPosition().latitude, item.getPosition().longitude), 18));
-            Toast.makeText(MapsActivity.this, ""+item.getId(), Toast.LENGTH_SHORT).show();
-            Log.d("consulta_item", AppDB.getAppDB(MapsActivity.this).availableDAO().getStation(item.getId()).toString());
+            presenter.getInfoToStation(item, MapsActivity.this);
             return true;
         }
     };
+
+    public GoogleMap.OnMapClickListener mMapClickListener = new GoogleMap.OnMapClickListener() {
+        @Override
+        public void onMapClick(LatLng latLng) {
+            slideupPannel.setPanelState(stateClose);
+        }
+    };
+
+    @Override
+    public void setInfoInPanel(StationsModel model) {
+        slideupPannel.setPanelState(stateOpen);
+        getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(model.getLat(), model.getLon()), 18));
+        input.get(0).setText(model.getName());
+        input.get(1).setText(String.valueOf(model.getBikes()));
+        input.get(2).setText(String.valueOf(model.getSlots()));
+    }
 
     /**
      * Click in Cluster
@@ -164,6 +203,16 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
     protected void onRestart() {
         super.onRestart();
         onMapReady(mMap);
+
+    }
+
+    @Override
+    public void onPanelSlide(View panel, float slideOffset) {
+
+    }
+
+    @Override
+    public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
 
     }
 }

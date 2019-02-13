@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="100dp">
+
+    <TextView
+        android:id="@+id/panelTitle"
+        style="@style/regular_medium_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dirección"/>
+
+    <RelativeLayout
+        android:layout_below="@+id/panelTitle"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/panelImageBike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_bike"/>
+        <TextView
+            android:id="@+id/panelNumberBikes"
+            style="@style/regular_medium_textview"
+            android:text="22"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/panelImageBike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/panelImageSlots"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@+id/panelNumberBikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_bike_parking"/>
+        <TextView
+            android:id="@+id/panelNumberSlots"
+            android:layout_toRightOf="@+id/panelImageSlots"
+            style="@style/regular_medium_textview"
+            android:text="12"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</RelativeLayout>

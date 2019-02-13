@@ -1,16 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.view.MapsActivity">
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    android:id="@+id/slide_layout"
+    android:gravity="bottom"
+    sothree:umanoPanelHeight="45dp"
+    sothree:umanoShadowHeight="4dp"
+    sothree:umanoOverlay="true"
+    android:clickable="true"
+    android:background="@color/whiteColor"
+    sothree:umanoFadeColor="@android:color/transparent"
+    app:ignore="NamespaceTypo">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.main.view.MapsActivity" />
-</RelativeLayout>
+        android:layout_height="match_parent">
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.main.view.MapsActivity" />
+    </RelativeLayout>
+
+    <!-- SLIDING LAYOUT -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/whiteColor">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+        </LinearLayout>
+        <FrameLayout
+            android:id="@+id/panel_slide_up"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include layout="@layout/frame_status" />
+        </FrameLayout>
+    </RelativeLayout>
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

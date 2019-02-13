@@ -208,12 +208,6 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
         }
     };
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        //onMapReady(mMap);
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

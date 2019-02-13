@@ -10,7 +10,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Ecobici MX</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancelar</string>
     <string name="need_permission">Para una mejor experiencia necesita aceptar los permisos de forma manual, ¿Desea hacerlo ahora?</string>

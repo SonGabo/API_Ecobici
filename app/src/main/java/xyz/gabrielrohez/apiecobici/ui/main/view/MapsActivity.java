@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import xyz.gabrielrohez.apiecobici.R;
 import xyz.gabrielrohez.apiecobici.data.Room.db.AppDB;
 import xyz.gabrielrohez.apiecobici.data.Room.entity.AvailabilityBikesEntity;
@@ -38,6 +40,7 @@ import xyz.gabrielrohez.apiecobici.utils.Utils;
 
 public class MapsActivity extends AppCompatActivity implements MapsView, OnMapReadyCallback, SlidingUpPanelLayout.PanelSlideListener {
 
+    @BindView(R.id.panelGoToStation)ImageView ivGoToStation;
     @BindViews({R.id.panelTitle, R.id.panelNumberBikes, R.id.panelNumberSlots})List<TextView> input;
 
     int zoom;
@@ -179,12 +182,18 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
     };
 
     @Override
-    public void setInfoInPanel(StationsModel model) {
+    public void setInfoInPanel(final StationsModel model) {
         slideupPannel.setPanelState(stateOpen);
         getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(model.getLat(), model.getLon()), 18));
         input.get(0).setText(model.getName());
         input.get(1).setText(String.valueOf(model.getBikes()));
         input.get(2).setText(String.valueOf(model.getSlots()));
+        ivGoToStation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(model.getLat(), model.getLon()), 18));
+            }
+        });
     }
 
     /**

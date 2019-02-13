@@ -14,4 +14,7 @@
     <string name="ok">Ok</string>
     <string name="cancel">Cancelar</string>
     <string name="need_permission">Para una mejor experiencia necesita aceptar los permisos de forma manual, ¿Desea hacerlo ahora?</string>
+    <string name="error_in_request">Ocurrio un error</string>
+    <string name="try_again">Volver a intentar</string>
+    <string name="exit">Salir</string>
 </resources>

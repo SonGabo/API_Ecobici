@@ -1,5 +1,7 @@
 package xyz.gabrielrohez.apiecobici.ui.splash.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -63,6 +65,22 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
 
     @Override
     public void showError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setTitle(R.string.error_in_request);
+        builder.setMessage(message);
+        builder.setPositiveButton(R.string.try_again, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                presenter.obtainAccessToken(SplashActivity.this);
+            }
+        });
+        builder.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

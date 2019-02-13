@@ -40,13 +40,20 @@ public class SplashInteractor implements SplashInteractorIn {
                     MySharedPreferences.getInstance().setLastTime(currentDateandTime);
                     Log.d("dato_recibido", response.body().getAccessToken());
                     getAvailabilityStations(listener, activity);
-                }else
-                    listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
+                }else{
+                    if (AppDB.getAppDB(activity).statusDAO().getAllBikes().isEmpty()){
+                        listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
+                    }else
+                        listener.openNextActivity();
+                }
             }
 
             @Override
             public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
-                listener.showError("Intente de nuevo mas tarde.");
+                if (AppDB.getAppDB(activity).statusDAO().getAllBikes().isEmpty()){
+                    listener.showError("Intente de nuevo mas tarde.");
+                }else
+                    listener.openNextActivity();
             }
         });
     }
@@ -65,15 +72,19 @@ public class SplashInteractor implements SplashInteractorIn {
                         list.setStatus(result.getStatus());
                         AppDB.getAppDB(activity).availableDAO().insert(list);
                     }
-
                     getStatusStations(listener, activity);
-                }else
+                }else if (AppDB.getAppDB(activity).availableDAO().getAllAvailable().isEmpty()){
                     listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
+                }else
+                    listener.openNextActivity();
             }
 
             @Override
             public void onFailure(Call<AvailabilityStationsResponse> call, Throwable t) {
-                listener.showError("Intente de nuevo mas tarde.");
+                if (AppDB.getAppDB(activity).availableDAO().getAllAvailable().isEmpty()){
+                    listener.showError("Intente de nuevo mas tarde.");
+                }else
+                    listener.openNextActivity();
             }
         });
     }
@@ -102,13 +113,18 @@ public class SplashInteractor implements SplashInteractorIn {
                     }
                     listener.openNextActivity();
 
-                }else
+                }else if (AppDB.getAppDB(activity).statusDAO().getAllBikes().isEmpty()){
                     listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
+                }else
+                    listener.openNextActivity();
             }
 
             @Override
             public void onFailure(Call<InfoStationResponse> call, Throwable t) {
-                listener.showError("Intente de nuevo mas tarde.");
+                if (AppDB.getAppDB(activity).statusDAO().getAllBikes().isEmpty()){
+                    listener.showError("Intente de nuevo mas tarde.");
+                }else
+                    listener.openNextActivity();
             }
         });
     }

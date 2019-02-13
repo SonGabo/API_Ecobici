@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,6 +21,7 @@ import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.List;
 import xyz.gabrielrohez.apiecobici.R;
+import xyz.gabrielrohez.apiecobici.data.Room.db.AppDB;
 import xyz.gabrielrohez.apiecobici.data.Room.entity.StatusBikesEntity;
 import xyz.gabrielrohez.apiecobici.data.network.model.MyClusterItem;
 import xyz.gabrielrohez.apiecobici.ui.main.presenter.MapsPresenter;
@@ -142,6 +144,7 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
         public boolean onClusterItemClick(MyClusterItem item) {
             getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(item.getPosition().latitude, item.getPosition().longitude), 18));
             Toast.makeText(MapsActivity.this, ""+item.getId(), Toast.LENGTH_SHORT).show();
+            Log.d("consulta_item", AppDB.getAppDB(MapsActivity.this).availableDAO().getStation(item.getId()).toString());
             return true;
         }
     };

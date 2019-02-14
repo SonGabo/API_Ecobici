@@ -6,4 +6,6 @@ import xyz.gabrielrohez.apiecobici.ui.main.view.MapsActivity;
 public interface MapsPresenterIn {
     void getStations(MapsActivity mapsActivity);
     void getInfoToStation(MyClusterItem item, MapsActivity activity);
+
+    void obtainAccessToken(MapsActivity activity);
 }

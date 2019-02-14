@@ -1,6 +1,8 @@
 package xyz.gabrielrohez.apiecobici.ui.main.view;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ import xyz.gabrielrohez.apiecobici.data.network.model.MyClusterItem;
 import xyz.gabrielrohez.apiecobici.data.network.model.StationsModel;
 import xyz.gabrielrohez.apiecobici.ui.main.presenter.MapsPresenter;
 import xyz.gabrielrohez.apiecobici.ui.main.presenter.MapsPresenterIn;
+import xyz.gabrielrohez.apiecobici.ui.splash.view.SplashActivity;
 import xyz.gabrielrohez.apiecobici.utils.MyClusterRenderer;
 import xyz.gabrielrohez.apiecobici.utils.MyLocation;
 import xyz.gabrielrohez.apiecobici.utils.Utils;
@@ -225,11 +228,40 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
             //  TODO :: get all data
             //presenter.getStations(this);
             slideupPannel.setPanelState(stateHidde);
-            onMapReady(mMap);
+            if (!getMap().isMyLocationEnabled()){
+                onMapReady(mMap);
+            }else
+                presenter.obtainAccessToken(this);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void updatedInformation() {
+        onMapReady(mMap);
+    }
+
+    @Override
+    public void showError(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setTitle(R.string.error_in_request);
+        builder.setMessage(message);
+        builder.setPositiveButton(R.string.try_again, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                presenter.obtainAccessToken(MapsActivity.this);
+            }
+        });
+        builder.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override

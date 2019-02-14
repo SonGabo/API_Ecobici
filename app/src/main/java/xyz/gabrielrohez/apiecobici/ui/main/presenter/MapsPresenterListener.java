@@ -10,4 +10,8 @@ public interface MapsPresenterListener {
     void setStationsList(List<StatusBikesEntity> list);
 
     void setInfoInPanel(StationsModel model);
+
+    void showError(String message);
+
+    void updatedInformation();
 }

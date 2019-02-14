@@ -30,6 +30,11 @@ public class MapsPresenter implements MapsPresenterIn, MapsPresenterListener {
     }
 
     @Override
+    public void obtainAccessToken(MapsActivity activity) {
+        interactor.obtainAccessToken(this, activity);
+    }
+
+    @Override
     public void setStationsList(List<StatusBikesEntity> list) {
         if (view != null){
             view.setStationsList(list);
@@ -40,6 +45,20 @@ public class MapsPresenter implements MapsPresenterIn, MapsPresenterListener {
     public void setInfoInPanel(StationsModel model) {
         if (view != null){
             view.setInfoInPanel(model);
+        }
+    }
+
+    @Override
+    public void showError(String message) {
+        if (view != null){
+            view.showError(message);
+        }
+    }
+
+    @Override
+    public void updatedInformation() {
+        if (view != null){
+            view.updatedInformation();
         }
     }
 }

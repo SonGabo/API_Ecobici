@@ -28,6 +28,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import xyz.gabrielrohez.apiecobici.R;
+import xyz.gabrielrohez.apiecobici.custom.Loader;
 import xyz.gabrielrohez.apiecobici.data.Room.db.AppDB;
 import xyz.gabrielrohez.apiecobici.data.Room.entity.AvailabilityBikesEntity;
 import xyz.gabrielrohez.apiecobici.data.Room.entity.StatusBikesEntity;
@@ -46,6 +47,7 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
     @BindViews({R.id.panelTitle, R.id.panelNumberBikes, R.id.panelNumberSlots})List<TextView> input;
 
     int zoom;
+    private Loader loader;
     private GoogleMap mMap;
     private MapsPresenterIn presenter;
     private SlidingUpPanelLayout slideupPannel;
@@ -60,6 +62,7 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
         setContentView(R.layout.activity_maps);
         ButterKnife.bind(this);
 
+        loader = new Loader(this);
         presenter = new MapsPresenter(this);
 
         setUpMap();
@@ -262,6 +265,21 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void showLoader(boolean visible) {
+        if(visible)
+            getLoaderProgressDialog().show();
+        else
+            getLoaderProgressDialog().dismiss();
+    }
+
+    private Loader getLoaderProgressDialog() {
+        if(loader != null)
+            return loader;
+        else
+            return loader = new Loader(this);
     }
 
     @Override

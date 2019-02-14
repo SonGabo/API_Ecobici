@@ -14,4 +14,6 @@ public interface MapsPresenterListener {
     void showError(String message);
 
     void updatedInformation();
+
+    void showLoader(boolean visible);
 }

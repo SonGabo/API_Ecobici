@@ -14,4 +14,6 @@ public interface MapsView {
     void updatedInformation();
 
     void showError(String message);
+
+    void showLoader(boolean visible);
 }

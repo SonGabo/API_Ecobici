@@ -61,4 +61,11 @@ public class MapsPresenter implements MapsPresenterIn, MapsPresenterListener {
             view.updatedInformation();
         }
     }
+
+    @Override
+    public void showLoader(boolean visible) {
+        if (view != null){
+            view.showLoader(visible);
+        }
+    }
 }

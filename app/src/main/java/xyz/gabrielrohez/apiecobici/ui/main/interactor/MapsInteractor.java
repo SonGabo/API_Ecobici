@@ -45,7 +45,7 @@ public class MapsInteractor implements MapsInteractorIn {
 
     @Override
     public void obtainAccessToken(final MapsPresenterListener listener, final MapsActivity activity) {
-
+        listener.showLoader(true);
         if (Utils.isOnline(activity)){
             MySharedPreferences.getInstance(activity);
 
@@ -62,17 +62,22 @@ public class MapsInteractor implements MapsInteractorIn {
                         MySharedPreferences.getInstance().setLastTime(currentDateandTime);
                         Log.d("dato_recibido", response.body().getAccessToken());
                         getAvailabilityStations(listener, activity);
-                    }else
+                    }else{
+                        listener.showLoader(false);
                         listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
-                        listener.showError("Intente de nuevo mas tarde.");
+                    listener.showError("Intente de nuevo mas tarde.");
+                    listener.showLoader(false);
                 }
             });
-        } else
+        } else{
             listener.showError("No tiene acceso a internet, verifique su conexión.");
+            listener.showLoader(false);
+        }
 
     }
 
@@ -91,13 +96,16 @@ public class MapsInteractor implements MapsInteractorIn {
                         AppDB.getAppDB(activity).availableDAO().insert(list);
                     }
                     getStatusStations(listener, activity);
-                }else
+                }else{
                     listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
+                    listener.showLoader(false);
+                }
             }
 
             @Override
             public void onFailure(Call<AvailabilityStationsResponse> call, Throwable t) {
                 listener.showError("Intente de nuevo mas tarde.");
+                listener.showLoader(false);
             }
         });
     }
@@ -107,7 +115,7 @@ public class MapsInteractor implements MapsInteractorIn {
             @Override
             public void onResponse(Call<InfoStationResponse> call, Response<InfoStationResponse> response) {
                 if (response.code() == 200){
-
+                    listener.showLoader(false);
                     StatusBikesEntity list = new StatusBikesEntity();
                     for (InfoStationResponse.Station result : response.body().getStations()){
                         list.setId(result.getId());
@@ -126,13 +134,16 @@ public class MapsInteractor implements MapsInteractorIn {
                     }
                     listener.updatedInformation();
 
-                }else
+                }else{
                     listener.showError("No se pudo establecer conexión con el servidor, intente de nuevo mas tarde.");
+                    listener.showLoader(false);
+                }
             }
 
             @Override
             public void onFailure(Call<InfoStationResponse> call, Throwable t) {
                 listener.showError("Intente de nuevo mas tarde.");
+                listener.showLoader(false);
             }
         });
     }

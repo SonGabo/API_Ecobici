@@ -115,7 +115,7 @@ public class MapsInteractor implements MapsInteractorIn {
             @Override
             public void onResponse(Call<InfoStationResponse> call, Response<InfoStationResponse> response) {
                 if (response.code() == 200){
-                    listener.showLoader(false);
+                    //listener.showLoader(false);
                     StatusBikesEntity list = new StatusBikesEntity();
                     for (InfoStationResponse.Station result : response.body().getStations()){
                         list.setId(result.getId());

@@ -85,18 +85,19 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(19.380929, -99.164088), 12));
+        //getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(19.380929, -99.164088), 12));
         mMap.clear();
         mMap.setOnMapClickListener(mMapClickListener);
 
         if (Utils.isEnablePermission(this)){
             getMap().setMyLocationEnabled(true);
-            presenter.getStations(this);
             MyLocation.LocationResult locationResult = new MyLocation.LocationResult(){
                 @Override
                 public void gotLocation(Location location){
                     // Position the map.
+                    showLoader(false);
                     getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
+                    presenter.getStations(MapsActivity.this);
                 }
             };
             MyLocation myLocation = new MyLocation();
@@ -105,6 +106,7 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
             // Position the map.
             // no permission, show map in Mexico City
             presenter.getStations(this);
+            getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(19.380929, -99.164088), 12));
         }
     }
 

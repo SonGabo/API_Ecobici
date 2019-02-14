@@ -33,8 +33,10 @@
 
         <activity
             android:name=".ui.main.view.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
-        <activity android:name=".ui.splash.view.SplashActivity">
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.splash.view.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

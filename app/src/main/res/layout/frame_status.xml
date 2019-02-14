@@ -52,6 +52,22 @@
             android:layout_height="wrap_content" />
 
         <ImageView
+            android:id="@+id/panelImageWalk"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_walk"/>
+
+        <TextView
+            android:id="@+id/panelMeters"
+            android:layout_marginLeft="10dp"
+            style="@style/regular_medium_textview"
+            android:text="12mts"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/panelImageWalk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
             android:id="@+id/panelGoToStation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

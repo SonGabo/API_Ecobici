@@ -18,6 +18,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.maps.android.SphericalUtil;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -44,11 +46,12 @@ import xyz.gabrielrohez.apiecobici.utils.Utils;
 public class MapsActivity extends AppCompatActivity implements MapsView, OnMapReadyCallback, SlidingUpPanelLayout.PanelSlideListener {
 
     @BindView(R.id.panelGoToStation)ImageView ivGoToStation;
-    @BindViews({R.id.panelTitle, R.id.panelNumberBikes, R.id.panelNumberSlots})List<TextView> input;
+    @BindViews({R.id.panelTitle, R.id.panelNumberBikes, R.id.panelNumberSlots, R.id.panelMeters})List<TextView> input;
 
     int zoom;
     private Loader loader;
     private GoogleMap mMap;
+    private Location currentLocation;
     private MapsPresenterIn presenter;
     private SlidingUpPanelLayout slideupPannel;
     private ClusterManager<MyClusterItem> mClusterManager;
@@ -85,18 +88,22 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(19.380929, -99.164088), 12));
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));
+
+        //getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(19.380929, -99.164088), 12));
         mMap.clear();
         mMap.setOnMapClickListener(mMapClickListener);
 
         if (Utils.isEnablePermission(this)){
             getMap().setMyLocationEnabled(true);
-            presenter.getStations(this);
             MyLocation.LocationResult locationResult = new MyLocation.LocationResult(){
                 @Override
                 public void gotLocation(Location location){
                     // Position the map.
-                    getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
+                    showLoader(false);
+                    currentLocation = location;
+                    getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16));
+                    presenter.getStations(MapsActivity.this);
                 }
             };
             MyLocation myLocation = new MyLocation();
@@ -105,6 +112,7 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
             // Position the map.
             // no permission, show map in Mexico City
             presenter.getStations(this);
+            getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(19.380929, -99.164088), 14));
         }
     }
 
@@ -180,6 +188,9 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
         }
     };
 
+    /**
+     * Click in map
+     */
     public GoogleMap.OnMapClickListener mMapClickListener = new GoogleMap.OnMapClickListener() {
         @Override
         public void onMapClick(LatLng latLng) {
@@ -194,6 +205,8 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
         input.get(0).setText(model.getName());
         input.get(1).setText(String.valueOf(model.getBikes()));
         input.get(2).setText(String.valueOf(model.getSlots()));
+
+        input.get(3).setText((int)SphericalUtil.computeDistanceBetween(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), new LatLng(model.getLat(), model.getLon()))+" "+getString(R.string.meters));
         ivGoToStation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

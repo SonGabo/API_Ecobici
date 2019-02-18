@@ -2,10 +2,19 @@ package xyz.gabrielrohez.apiecobici.ui.main.view;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +54,7 @@ import xyz.gabrielrohez.apiecobici.utils.Utils;
 
 public class MapsActivity extends AppCompatActivity implements MapsView, OnMapReadyCallback, SlidingUpPanelLayout.PanelSlideListener {
 
+    private static final String CHANNEL_ID = "notify101";
     @BindView(R.id.panelGoToStation)ImageView ivGoToStation;
     @BindViews({R.id.panelTitle, R.id.panelNumberBikes, R.id.panelNumberSlots, R.id.panelMeters})List<TextView> input;
 
@@ -70,6 +80,7 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
 
         setUpMap();
         setUpPanelUp();
+        showNotify();
     }
 
     private void setUpPanelUp() {
@@ -252,6 +263,34 @@ public class MapsActivity extends AppCompatActivity implements MapsView, OnMapRe
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showNotify(){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle("My notification")
+                .setContentText("Much longer text that cannot fit one line...")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Much longer text that cannot fit one line..."))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Chanel name";
+            String description = "Descripcion";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+// notificationId is a unique int for each notification that you must define
+        notificationManager.notify(1, mBuilder.build());
     }
 
     @Override
